@@ -118,6 +118,8 @@ namespace GpsTestProject
         {
             //  トラッキング停止
             FuncStopGeolocatorTracking();
+
+            txBk_状態.Text = "停止";
         }
 
         /// <summary>
