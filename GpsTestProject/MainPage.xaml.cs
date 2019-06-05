@@ -68,7 +68,7 @@ namespace GpsTestProject
             // Request permission to accses location
             var access_status = await Geolocator.RequestAccessAsync();
 
-            switch(access_status)
+            switch (access_status)
             {
                 case GeolocationAccessStatus.Allowed:
                     //  イベント設定前に以下のどちらかを設定する必要あり
@@ -221,7 +221,7 @@ namespace GpsTestProject
         private void FuncNotifyUser(string strMessage_, eNotifyType type_)
         {
             //  UIスレッドから呼ばれた場合、即反映
-            if(Dispatcher.HasThreadAccess)
+            if (Dispatcher.HasThreadAccess)
             {
                 FuncUpdateStatus(strMessage_, type_);
             }
@@ -237,7 +237,7 @@ namespace GpsTestProject
         /// </summary>
         /// <param name="strMessage_"></param>
         /// <param name="type_"></param>
-        private void  FuncUpdateStatus(string strMessage_, eNotifyType type_)
+        private void FuncUpdateStatus(string strMessage_, eNotifyType type_)
         {
             switch (type_)
             {
@@ -269,7 +269,7 @@ namespace GpsTestProject
         /// <param name="pos_"></param>
         private void FuncUpdateLocationData(Geoposition pos_)
         {
-            if(null == pos_)
+            if (null == pos_)
             {
                 txBk_緯度.Text = "No data";
                 txBk_経度.Text = "No data";
@@ -353,7 +353,7 @@ namespace GpsTestProject
                 case 3:
                     gpsMap.Style = MapStyle.AerialWithRoads;
                     break;
-                        case 4:
+                case 4:
                     gpsMap.Style = MapStyle.Terrain;
                     break;
                 default:
@@ -417,7 +417,7 @@ namespace GpsTestProject
         ///     ・"【デバッグマップ】"右タップ時
         private void EvtDbgMap_MapRightTapped(MapControl sender_, MapRightTappedEventArgs args_)
         {
-            if(true == chkBx_デバッグ用マップ使用切り替え.IsChecked)
+            if (true == chkBx_デバッグ用マップ使用切り替え.IsChecked)
             {
                 gpsMap.Center = args_.Location;
             }
