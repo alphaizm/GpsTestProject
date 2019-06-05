@@ -72,15 +72,18 @@ namespace GpsTestProject
             {
                 case GeolocationAccessStatus.Allowed:
                     //  イベント設定前に以下のどちらかを設定する必要あり
-                    //      ・定期毎    → ReportInterval
-                    //      ・距離毎    → MovementThreshold
-                    _geolocator = new Geolocator { ReportInterval = 1000 };
+                    //      ・定期毎    → ReportInterval [ms]
+                    //      ・距離毎    → MovementThreshold [m]
+                    _geolocator = new Geolocator { MovementThreshold = 0.5 };
 
                     //  イベント登録  ※トラッキングポジション更新用
                     _geolocator.PositionChanged += EvtOnPositionChanged;
 
                     //  イベント登録  ※ロケーション状態更新用
                     _geolocator.StatusChanged += EvtOnStatusChanged;
+
+                    //  求める精度のレベルを「高」
+                    _geolocator.DesiredAccuracy = PositionAccuracy.High;
 
                     FuncNotifyUser("更新待機中...", eNotifyType.StatusMessage);
 
