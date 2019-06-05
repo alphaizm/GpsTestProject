@@ -137,7 +137,9 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <CheckBox x:Name="chkBx_デバッグ用マップ使用切り替え" Grid.Row="0" Margin="20,10,0,0">
+                        <CheckBox x:Name="chkBx_デバッグ用マップ使用切り替え" Grid.Row="0" Margin="20,10,0,0"
+                                  Checked="EvtChkBxChgDbgMap_Checked"
+                                  >
                             <TextBlock>【デバッグ用】マップ指定入力</TextBlock>
                         </CheckBox>
 

@@ -51,17 +51,8 @@ namespace GpsTestProject
         /// <param name="e_"></param>
         private void EvtSuspending(object sender_, SuspendingEventArgs e_)
         {
-            if (null != _geolocator)
-            {
-                //  イベント解除
-                _geolocator.PositionChanged -= EvtOnPositionChanged;
-                _geolocator.StatusChanged -= EvtOnStatusChanged;
-                _geolocator = null;
-            }
-
-            //  ボタン状態更新
-            btnTrackingStart.IsEnabled = true;
-            btnTrackingStop.IsEnabled = false;
+            //  トラッキング停止
+            FuncStopGeolocatorTracking();
         }
 
         #region トラッキング制御
@@ -122,16 +113,8 @@ namespace GpsTestProject
         /// <param name="e_"></param>
         private void EvtBtnStopTracking_Click(object sender_, RoutedEventArgs e_)
         {
-            //  イベント解除
-            _geolocator.PositionChanged -= EvtOnPositionChanged;
-            _geolocator.StatusChanged -= EvtOnStatusChanged;
-            _geolocator = null;
-
-            //  ボタン状態更新
-            btnTrackingStart.IsEnabled = true;
-            btnTrackingStop.IsEnabled = false;
-
-            FuncNotifyUser("", eNotifyType.InitState);
+            //  トラッキング停止
+            FuncStopGeolocatorTracking();
         }
 
         /// <summary>
@@ -147,7 +130,7 @@ namespace GpsTestProject
             {
                 txBk_状態.Text = "位置情報取得中";
                 FuncNotifyUser("位置情報更新", eNotifyType.StatusMessage);
-                IntUpdateLocationData(e_.Position);
+                FuncUpdateLocationData(e_.Position);
             });
         }
 
@@ -186,7 +169,7 @@ namespace GpsTestProject
                         txBk_位置情報無効時説明.Visibility = Visibility.Visible;
 
                         //  cached location data クリア
-                        IntUpdateLocationData(null);
+                        FuncUpdateLocationData(null);
                         break;
                     case PositionStatus.NotInitialized:
                         txBk_状態.Text = "未初期化";
@@ -205,8 +188,33 @@ namespace GpsTestProject
         }
 
         /// <summary>
-        /// ユーザーにメッセージ表示
-        /// 【注意】本メソッドは他スレッドから呼ばれる可能性あり
+        /// 【内部関数】
+        ///     
+        /// </summary>
+        private void FuncStopGeolocatorTracking()
+        {
+            if (null != _geolocator)
+            {
+                //  イベント解除
+                _geolocator.PositionChanged -= EvtOnPositionChanged;
+                _geolocator.StatusChanged -= EvtOnStatusChanged;
+                _geolocator = null;
+            }
+
+            //  ボタン状態更新
+            btnTrackingStart.IsEnabled = true;
+            btnTrackingStop.IsEnabled = false;
+
+            //  メッセージ初期化
+            FuncNotifyUser("", eNotifyType.InitState);
+        }
+
+
+
+        /// <summary>
+        /// 【内部関数】
+        ///     ユーザーにメッセージ表示
+        ///     【注意】本メソッドは他スレッドから呼ばれる可能性あり
         /// </summary>
         /// <param name="strMessage_"></param>
         /// <param name="type_"></param>
@@ -215,20 +223,21 @@ namespace GpsTestProject
             //  UIスレッドから呼ばれた場合、即反映
             if(Dispatcher.HasThreadAccess)
             {
-                IntUpdateStatus(strMessage_, type_);
+                FuncUpdateStatus(strMessage_, type_);
             }
             else
             {
-                var task = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => IntUpdateStatus(strMessage_, type_));
+                var task = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => FuncUpdateStatus(strMessage_, type_));
             }
         }
 
         /// <summary>
         /// 【内部関数】
+        ///     ステータスメッセージを更新
         /// </summary>
         /// <param name="strMessage_"></param>
         /// <param name="type_"></param>
-        private void  IntUpdateStatus(string strMessage_, eNotifyType type_)
+        private void  FuncUpdateStatus(string strMessage_, eNotifyType type_)
         {
             switch (type_)
             {
@@ -258,7 +267,7 @@ namespace GpsTestProject
         /// 【内部関数】
         /// </summary>
         /// <param name="pos_"></param>
-        private void IntUpdateLocationData(Geoposition pos_)
+        private void FuncUpdateLocationData(Geoposition pos_)
         {
             if(null == pos_)
             {
@@ -382,6 +391,15 @@ namespace GpsTestProject
         private void EvtTggBtn_Click(object sender_, RoutedEventArgs e_)
         {
             Splitter.IsPaneOpen = !Splitter.IsPaneOpen;
+        }
+
+        private void EvtChkBxChgDbgMap_Checked(object sender_, RoutedEventArgs e_)
+        {
+            //  トラッキング停止
+            FuncStopGeolocatorTracking();
+
+            //  cached location data クリア
+            FuncUpdateLocationData(null);
         }
 
         private void EvtDbgMap_Loaded(object sender_, RoutedEventArgs e_)
