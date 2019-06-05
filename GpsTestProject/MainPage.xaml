@@ -130,11 +130,26 @@
 
             <!--デバッグ用座標指定用マップ表示-->
             <SplitView.Pane>
-                <StackPanel Orientation="Vertical">
-                    <CheckBox Margin="10,10,0,0">
-                        <TextBlock>【デバッグ用】マップ指定入力</TextBlock>
-                    </CheckBox>
-                </StackPanel>
+                <Border BorderThickness="5" BorderBrush="Yellow">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <CheckBox x:Name="ChkBx_デバッグ用マップ使用切り替え" Grid.Row="0" Margin="20,10,0,0">
+                            <TextBlock>【デバッグ用】マップ指定入力</TextBlock>
+                        </CheckBox>
+
+                        <maps:MapControl x:Name="dbgMap" Grid.Row="1" HorizontalAlignment="Stretch"
+                                        ZoomLevel="18"
+                                        Heading="{Binding ElementName=sliderHead,Path=Value,Mode=TwoWay}"
+                                        Loaded="EvtDbgMap_Loaded"
+                                        MapRightTapped="EvtDbgMap_MapRightTapped"
+                                     />
+                    </Grid>
+                </Border>
+
 
             </SplitView.Pane>
         </SplitView>

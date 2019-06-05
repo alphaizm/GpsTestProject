@@ -371,6 +371,7 @@ namespace GpsTestProject
 
         #endregion 地図制御
 
+        #region デバッグメニュー
         /// <summary>
         /// 【イベントハンドラー】
         ///     発生タイミング
@@ -382,5 +383,25 @@ namespace GpsTestProject
         {
             Splitter.IsPaneOpen = !Splitter.IsPaneOpen;
         }
+
+        private void EvtDbgMap_Loaded(object sender_, RoutedEventArgs e_)
+        {
+            //  初期位置は、中海小学校
+            dbgMap.Center = new Geopoint(new BasicGeoposition() { Latitude = 36.397668, Longitude = 136.518854 });
+            dbgMap.ZoomLevel = 18;
+            dbgMap.Style = MapStyle.Road;
+            dbgMap.MapProjection = MapProjection.WebMercator;
+        }
+
+        /// <summary>
+        /// 【イベントハンドラー】
+        ///     発生タイミング
+        ///     ・"【デバッグマップ】"右タップ時
+        private void EvtDbgMap_MapRightTapped(MapControl sender, MapRightTappedEventArgs args)
+        {
+            
+        }
+
+        #endregion デバッグメニュー
     }
 }
