@@ -407,7 +407,7 @@ namespace GpsTestProject
             //  初期位置は、中海小学校
             dbgMap.Center = new Geopoint(new BasicGeoposition() { Latitude = 36.397668, Longitude = 136.518854 });
             dbgMap.ZoomLevel = 18;
-            dbgMap.Style = MapStyle.Road;
+            dbgMap.Style = MapStyle.Aerial;
             dbgMap.MapProjection = MapProjection.WebMercator;
         }
 

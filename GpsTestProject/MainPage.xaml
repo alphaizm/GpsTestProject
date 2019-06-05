@@ -106,8 +106,8 @@
                             <StackPanel Orientation="Horizontal">
                                 <ComboBox Header="表示形式" Name="cmbxStyle" SelectionChanged="EvtCmbxStyle_SelectionChanged" Margin="10">
                                     <ComboBoxItem>None</ComboBoxItem>
-                                    <ComboBoxItem IsSelected="True">Road</ComboBoxItem>
-                                    <ComboBoxItem>Aerial</ComboBoxItem>
+                                    <ComboBoxItem>Road</ComboBoxItem>
+                                    <ComboBoxItem IsSelected="True">Aerial</ComboBoxItem>
                                     <ComboBoxItem>AerialWithRoads</ComboBoxItem>
                                     <ComboBoxItem>Terrain</ComboBoxItem>
                                 </ComboBox>
