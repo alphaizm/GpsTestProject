@@ -72,7 +72,7 @@ namespace GpsTestProject
         /// </summary>
         /// <param name="sender_"></param>
         /// <param name="e_"></param>
-        private async void EvtStartTracking(object sender_, RoutedEventArgs e_)
+        private async void EvtBtnStartTracking_Click(object sender_, RoutedEventArgs e_)
         {
             // Request permission to accses location
             var access_status = await Geolocator.RequestAccessAsync();
@@ -93,7 +93,7 @@ namespace GpsTestProject
 
                     FuncNotifyUser("更新待機中...", eNotifyType.StatusMessage);
 
-                    位置情報無効時説明.Visibility = Visibility.Collapsed;
+                    txBk_位置情報無効時説明.Visibility = Visibility.Collapsed;
 
                     //  ボタン状態更新
                     btnTrackingStart.IsEnabled = false;
@@ -102,13 +102,13 @@ namespace GpsTestProject
 
                 case GeolocationAccessStatus.Denied:
                     FuncNotifyUser("位置情報へのアクセス拒否", eNotifyType.ErrorMessage);
-                    位置情報無効時説明.Visibility = Visibility.Visible;
+                    txBk_位置情報無効時説明.Visibility = Visibility.Visible;
                     break;
 
                 case GeolocationAccessStatus.Unspecified:
                 default:
                     FuncNotifyUser("想定外エラー!!", eNotifyType.ErrorMessage);
-                    位置情報無効時説明.Visibility = Visibility.Collapsed;
+                    txBk_位置情報無効時説明.Visibility = Visibility.Collapsed;
                     break;
             }
         }
@@ -120,7 +120,7 @@ namespace GpsTestProject
         /// </summary>
         /// <param name="sender_"></param>
         /// <param name="e_"></param>
-        private void EvtStopTracking(object sender_, RoutedEventArgs e_)
+        private void EvtBtnStopTracking_Click(object sender_, RoutedEventArgs e_)
         {
             //  イベント解除
             _geolocator.PositionChanged -= EvtOnPositionChanged;
@@ -145,7 +145,7 @@ namespace GpsTestProject
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
-                状態.Text = "位置情報取得中";
+                txBk_状態.Text = "位置情報取得中";
                 FuncNotifyUser("位置情報更新", eNotifyType.StatusMessage);
                 IntUpdateLocationData(e_.Position);
             });
@@ -163,41 +163,41 @@ namespace GpsTestProject
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
                 //  位置情報設定は、無効時のみ表示
-                位置情報無効時説明.Visibility = Visibility.Collapsed;
+                txBk_位置情報無効時説明.Visibility = Visibility.Collapsed;
 
                 switch (e_.Status)
                 {
                     case PositionStatus.Ready:
-                        状態.Text = "準備中";
+                        txBk_状態.Text = "準備中";
                         FuncNotifyUser("位置情報構成の準備中", eNotifyType.StatusMessage);
                         break;
                     case PositionStatus.Initializing:
-                        状態.Text = "初期化中";
+                        txBk_状態.Text = "初期化中";
                         FuncNotifyUser("位置情報構成で位置取得中", eNotifyType.StatusMessage);
                         break;
                     case PositionStatus.NoData:
-                        状態.Text = "データなし";
+                        txBk_状態.Text = "データなし";
                         FuncNotifyUser("有効な位置情報を確定できず", eNotifyType.ErrorMessage);
                         break;
                     case PositionStatus.Disabled:
-                        状態.Text = "無効";
+                        txBk_状態.Text = "無効";
                         FuncNotifyUser("位置情報へのアクセス拒否", eNotifyType.ErrorMessage);
 
-                        位置情報無効時説明.Visibility = Visibility.Visible;
+                        txBk_位置情報無効時説明.Visibility = Visibility.Visible;
 
                         //  cached location data クリア
                         IntUpdateLocationData(null);
                         break;
                     case PositionStatus.NotInitialized:
-                        状態.Text = "未初期化";
+                        txBk_状態.Text = "未初期化";
                         FuncNotifyUser("位置情報への取得要求は未作成", eNotifyType.StatusMessage);
                         break;
                     case PositionStatus.NotAvailable:
-                        状態.Text = "有効なし";
+                        txBk_状態.Text = "有効なし";
                         FuncNotifyUser("本OSバージョンでは位置情報は無効", eNotifyType.ErrorMessage);
                         break;
                     default:
-                        状態.Text = "不明";
+                        txBk_状態.Text = "不明";
                         FuncNotifyUser("", eNotifyType.ErrorMessage);
                         break;
                 }
@@ -262,15 +262,15 @@ namespace GpsTestProject
         {
             if(null == pos_)
             {
-                緯度.Text = "No data";
-                経度.Text = "No data";
-                精度.Text = "No data";
+                txBk_緯度.Text = "No data";
+                txBk_経度.Text = "No data";
+                txBk_精度.Text = "No data";
             }
             else
             {
-                緯度.Text = pos_.Coordinate.Point.Position.Latitude.ToString();
-                経度.Text = pos_.Coordinate.Point.Position.Longitude.ToString();
-                精度.Text = pos_.Coordinate.Accuracy.ToString();
+                txBk_緯度.Text = pos_.Coordinate.Point.Position.Latitude.ToString();
+                txBk_経度.Text = pos_.Coordinate.Point.Position.Longitude.ToString();
+                txBk_精度.Text = pos_.Coordinate.Accuracy.ToString();
 
                 //  地図位置更新
                 gpsMap.Center = pos_.Coordinate.Point;
@@ -379,7 +379,7 @@ namespace GpsTestProject
         /// </summary>
         /// <param name="sender_"></param>
         /// <param name="e_"></param>
-        private void EvtToggleDbgMenu(object sender_, RoutedEventArgs e_)
+        private void EvtTggBtn_Click(object sender_, RoutedEventArgs e_)
         {
             Splitter.IsPaneOpen = !Splitter.IsPaneOpen;
         }
