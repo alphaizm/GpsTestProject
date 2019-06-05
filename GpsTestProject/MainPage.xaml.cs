@@ -397,9 +397,12 @@ namespace GpsTestProject
         /// 【イベントハンドラー】
         ///     発生タイミング
         ///     ・"【デバッグマップ】"右タップ時
-        private void EvtDbgMap_MapRightTapped(MapControl sender, MapRightTappedEventArgs args)
+        private void EvtDbgMap_MapRightTapped(MapControl sender_, MapRightTappedEventArgs args_)
         {
-            
+            if(true == chkBx_デバッグ用マップ使用切り替え.IsChecked)
+            {
+                gpsMap.Center = args_.Location;
+            }
         }
 
         #endregion デバッグメニュー
