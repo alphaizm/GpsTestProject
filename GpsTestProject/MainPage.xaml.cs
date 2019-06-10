@@ -36,6 +36,9 @@ namespace GpsTestProject
         // Proides access to location data
         private Geolocator _geolocator = null;
 
+        //  中心点用マップレイヤー
+        private MapElementsLayer _map_elt_lyr_icon = new MapElementsLayer();
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -304,16 +307,8 @@ namespace GpsTestProject
             FuncSetMapStyle();
             FuncSetMapProjection();
 
-            MapIcon map_icon = new MapIcon
-            {
-                Location = gpsMap.Center,
-                NormalizedAnchorPoint = new Point(0.5, 0.5),
-                Title = "first pos",
-
-                ZIndex = 0
-            };
-
-            gpsMap.MapElements.Add(map_icon);
+            gpsMap.Layers.Add(_map_elt_lyr_icon);
+            _map_elt_lyr_icon.MapElements.Add(map_icon);
         }
 
         private void EvtCmbxStyle_SelectionChanged(object sender_, SelectionChangedEventArgs e_)
@@ -438,7 +433,8 @@ namespace GpsTestProject
                 ZIndex = 0
             };
 
-            gpsMap.MapElements.Add(map_icon);
+            //  マップアイコンレイヤーに追加
+            _map_elt_lyr_icon.MapElements.Add(map_icon);
         }
 
         #endregion デバッグメニュー
