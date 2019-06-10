@@ -289,16 +289,8 @@ namespace GpsTestProject
                 //  地図位置更新
                 gpsMap.Center = pos_.Coordinate.Point;
 
-                MapIcon map_icon = new MapIcon
-                {
-                    Location = gpsMap.Center,
-                    NormalizedAnchorPoint = new Point(0.5, 0.5),
-
-                    ZIndex = 0
-                };
-
-                gpsMap.MapElements.Add(map_icon);
-
+                //  マップアイコン追加
+                FuncAddMapIcon(pos_.Coordinate.Point);
             }
         }
         #endregion トラッキング制御
@@ -424,8 +416,29 @@ namespace GpsTestProject
         {
             if (true == chkBx_デバッグ用マップ使用切り替え.IsChecked)
             {
+                //  地図位置更新
                 gpsMap.Center = args_.Location;
+
+                //  マップアイコン追加
+                FuncAddMapIcon(args_.Location);
             }
+        }
+
+        /// <summary>
+        /// マップアイコン更新
+        /// </summary>
+        /// <param name="pos_"></param>
+        private void FuncAddMapIcon(Geopoint pos_)
+        {
+            MapIcon map_icon = new MapIcon
+            {
+                Location = pos_,
+                NormalizedAnchorPoint = new Point(0.5, 0.5),
+
+                ZIndex = 0
+            };
+
+            gpsMap.MapElements.Add(map_icon);
         }
 
         #endregion デバッグメニュー
