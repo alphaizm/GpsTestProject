@@ -308,7 +308,6 @@ namespace GpsTestProject
             FuncSetMapProjection();
 
             gpsMap.Layers.Add(_map_elt_lyr_icon);
-            _map_elt_lyr_icon.MapElements.Add(map_icon);
         }
 
         private void EvtCmbxStyle_SelectionChanged(object sender_, SelectionChangedEventArgs e_)
