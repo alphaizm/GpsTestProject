@@ -109,11 +109,11 @@
                     <Slider Minimum="0" Maximum="360" Header="地図回転" Name="sliderHead" Value="0" Margin="10,0,10,0"/>
                     <StackPanel Orientation="Horizontal">
                         <ComboBox Header="表示形式" Name="cmbxStyle" SelectionChanged="EvtCmbxStyle_SelectionChanged" Margin="10">
-                            <ComboBoxItem>None</ComboBoxItem>
-                            <ComboBoxItem>Road</ComboBoxItem>
-                            <ComboBoxItem IsSelected="True">Aerial</ComboBoxItem>
-                            <ComboBoxItem>AerialWithRoads</ComboBoxItem>
-                            <ComboBoxItem>Terrain</ComboBoxItem>
+                            <ComboBoxItem>None</ComboBoxItem>                       <!--スタイルなし-->
+                            <ComboBoxItem>Road</ComboBoxItem>                       <!--道路地図を表示-->
+                            <ComboBoxItem IsSelected="True">Aerial</ComboBoxItem>   <!--航空写真地図を表示-->
+                            <ComboBoxItem>AerialWithRoads</ComboBoxItem>            <!--航空地図＆道路地図を表示-->
+                            <ComboBoxItem>Terrain</ComboBoxItem>                    <!--地形地図を表示-->
                         </ComboBox>
                         <ComboBox Header="Projection" Name="cmbxProjection" SelectionChanged="EvtCmbxProjection_SelectionChanged" Margin="10">
                             <ComboBoxItem IsSelected="True">Web Mercator</ComboBoxItem>
