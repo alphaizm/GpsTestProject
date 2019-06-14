@@ -52,6 +52,15 @@
                         <Button x:Name="btnTrackingStop" Margin="0,10,0,0" Content="【トラッキング】終了" Click="EvtBtnStopTracking_Click" IsEnabled="False"></Button>
                     </StackPanel>
 
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox x:Name="chkBx_軌跡表示" Margin="10,0,0,0"
+                                  Click="EvtChkBx_DispTrack_Click" 
+                                  >
+                            <TextBlock>軌跡表示</TextBlock>
+                        </CheckBox>
+                        
+                    </StackPanel>
+
                     <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,20,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto" />

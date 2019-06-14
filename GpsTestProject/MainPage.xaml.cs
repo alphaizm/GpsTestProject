@@ -37,7 +37,7 @@ namespace GpsTestProject
         private Geolocator _geolocator = null;
 
         //  中心点用マップレイヤー
-        private MapElementsLayer _map_elt_lyr_icon = new MapElementsLayer();
+        private MapElementsLayer _map_elm_lyr_icon = new MapElementsLayer();
 
         public MainPage()
         {
@@ -123,6 +123,17 @@ namespace GpsTestProject
             FuncStopGeolocatorTracking();
 
             txBk_状態.Text = "停止";
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender_"></param>
+        /// <param name="e_"></param>
+        private void EvtChkBx_DispTrack_Click(object sender_, RoutedEventArgs e_)
+        {
+            _map_elm_lyr_icon.MapElements.Clear();
+            FuncAddMapIcon(gpsMap.Center, true);
         }
 
         /// <summary>
@@ -293,7 +304,12 @@ namespace GpsTestProject
                 gpsMap.Center = pos_.Coordinate.Point;
 
                 //  マップアイコン追加
-                FuncAddMapIcon(pos_.Coordinate.Point);
+                bool update = false;
+                if(true == chkBx_軌跡表示.IsChecked)
+                {
+                    update = true;
+                }
+                FuncAddMapIcon(pos_.Coordinate.Point, update);
             }
         }
         #endregion トラッキング制御
@@ -307,7 +323,7 @@ namespace GpsTestProject
             FuncSetMapStyle();
             FuncSetMapProjection();
 
-            gpsMap.Layers.Add(_map_elt_lyr_icon);
+            gpsMap.Layers.Add(_map_elm_lyr_icon);
         }
 
         private void EvtCmbxStyle_SelectionChanged(object sender_, SelectionChangedEventArgs e_)
@@ -414,7 +430,12 @@ namespace GpsTestProject
                 gpsMap.Center = args_.Location;
 
                 //  マップアイコン追加
-                FuncAddMapIcon(args_.Location);
+                bool update = false;
+                if (true == chkBx_軌跡表示.IsChecked)
+                {
+                    update = true;
+                }
+                FuncAddMapIcon(args_.Location, update);
             }
         }
 
@@ -422,18 +443,21 @@ namespace GpsTestProject
         /// マップアイコン更新
         /// </summary>
         /// <param name="pos_"></param>
-        private void FuncAddMapIcon(Geopoint pos_)
+        private void FuncAddMapIcon(Geopoint pos_, bool update_)
         {
-            MapIcon map_icon = new MapIcon
+            if (update_)
             {
-                Location = pos_,
-                NormalizedAnchorPoint = new Point(0.5, 0.5),
+                //  マップアイコンレイヤーに追加
+                MapIcon map_icon = new MapIcon
+                {
+                    Location = pos_,
+                    NormalizedAnchorPoint = new Point(0.5, 0.5),
 
-                ZIndex = 0
-            };
+                    ZIndex = 0
+                };
 
-            //  マップアイコンレイヤーに追加
-            _map_elt_lyr_icon.MapElements.Add(map_icon);
+                _map_elm_lyr_icon.MapElements.Add(map_icon);
+            }
         }
 
         #endregion デバッグメニュー
