@@ -52,11 +52,15 @@
                         <Button x:Name="btnTrackingStop" Margin="0,10,0,0" Content="【トラッキング】終了" Click="EvtBtnStopTracking_Click" IsEnabled="False"></Button>
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox x:Name="chkBx_中心点表示" Margin="10,0,0,0"
+                    <StackPanel Orientation="Vertical">
+                        <CheckBox x:Name="chkBx_中心点表示" Margin="10,10,0,0"
                                   Click="EvtChkBx_DispTrack_Click" 
                                   >
                             <TextBlock>中心点表示</TextBlock>
+                        </CheckBox>
+                        <CheckBox x:Name="chkBx_軌跡表示" Margin="10,0,0,0"
+                                  >
+                            <TextBlock>軌跡表示</TextBlock>
                         </CheckBox>
                         
                     </StackPanel>
