@@ -307,12 +307,7 @@ namespace GpsTestProject
                 gpsMap.Center = pos_.Coordinate.Point;
 
                 //  マップアイコン追加
-                bool update = false;
-                if(true == chkBx_中心点表示.IsChecked)
-                {
-                    update = true;
-                }
-                FuncAddMapIcon(pos_.Coordinate.Point, update);
+                FuncAddMapIconChecked(pos_.Coordinate.Point);
 
                 //  軌跡追加
                 _lst_geopoint_line.Add(pos_.Coordinate.Point);
@@ -436,16 +431,26 @@ namespace GpsTestProject
                 gpsMap.Center = args_.Location;
 
                 //  マップアイコン追加
-                bool update = false;
-                if (true == chkBx_中心点表示.IsChecked)
-                {
-                    update = true;
-                }
-                FuncAddMapIcon(args_.Location, update);
+                FuncAddMapIconChecked(args_.Location);
 
                 //  軌跡追加
                 _lst_geopoint_line.Add(args_.Location);
             }
+        }
+
+        /// <summary>
+        /// マップアイコン更新（チェックボックスのチェック）
+        /// </summary>
+        /// <param name="pos_"></param>
+        private void FuncAddMapIconChecked(Geopoint pos_)
+        {
+            bool update = false;
+            if (true == chkBx_中心点表示.IsChecked)
+            {
+                update = true;
+            }
+
+            FuncAddMapIcon(pos_, update);
         }
 
         /// <summary>
