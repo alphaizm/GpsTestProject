@@ -480,6 +480,9 @@ namespace GpsTestProject
             }
         }
 
+        /// <summary>
+        /// マップライン更新
+        /// </summary>
         private void FuncAddMapLine()
         {
             //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
