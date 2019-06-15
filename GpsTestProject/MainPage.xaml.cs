@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.ApplicationModel;
 using Windows.UI.Xaml.Controls.Maps;
+using Windows.Storage.Streams;
 
 // 空白ページの項目テンプレートについては、https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x411 を参照してください
 
@@ -452,6 +453,7 @@ namespace GpsTestProject
                 {
                     Location = pos_,
                     NormalizedAnchorPoint = new Point(0.5, 0.5),
+                    Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/point_red.png")),
 
                     ZIndex = 0
                 };
