@@ -40,6 +40,9 @@ namespace GpsTestProject
         //  中心点用マップレイヤー
         private MapElementsLayer _map_elm_lyr_icon = new MapElementsLayer();
 
+        //  軌跡用中心座標リスト
+        private List<Geopoint> _lst_geopoint_line = new List<Geopoint>();
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -230,7 +233,6 @@ namespace GpsTestProject
         }
 
 
-
         /// <summary>
         /// 【内部関数】
         ///     ユーザーにメッセージ表示
@@ -311,6 +313,9 @@ namespace GpsTestProject
                     update = true;
                 }
                 FuncAddMapIcon(pos_.Coordinate.Point, update);
+
+                //  軌跡追加
+                _lst_geopoint_line.Add(pos_.Coordinate.Point);
             }
         }
         #endregion トラッキング制御
@@ -437,6 +442,9 @@ namespace GpsTestProject
                     update = true;
                 }
                 FuncAddMapIcon(args_.Location, update);
+
+                //  軌跡追加
+                _lst_geopoint_line.Add(args_.Location);
             }
         }
 
