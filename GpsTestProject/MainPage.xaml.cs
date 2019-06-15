@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.ApplicationModel;
 using Windows.UI.Xaml.Controls.Maps;
+using Windows.UI;
 using Windows.Storage.Streams;
 
 // 空白ページの項目テンプレートについては、https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x411 を参照してください
@@ -42,6 +43,7 @@ namespace GpsTestProject
 
         //  軌跡用中心座標リスト
         private List<Geopoint> _lst_geopoint_line = new List<Geopoint>();
+        private MapElementsLayer _map_elm_lyr_line = new MapElementsLayer();
 
         public MainPage()
         {
@@ -311,6 +313,7 @@ namespace GpsTestProject
 
                 //  軌跡追加
                 _lst_geopoint_line.Add(pos_.Coordinate.Point);
+                FuncAddMapLine();
             }
         }
         #endregion トラッキング制御
@@ -325,6 +328,7 @@ namespace GpsTestProject
             FuncSetMapProjection();
 
             gpsMap.Layers.Add(_map_elm_lyr_icon);
+            gpsMap.Layers.Add(_map_elm_lyr_line);
         }
 
         private void EvtCmbxStyle_SelectionChanged(object sender_, SelectionChangedEventArgs e_)
@@ -435,6 +439,7 @@ namespace GpsTestProject
 
                 //  軌跡追加
                 _lst_geopoint_line.Add(args_.Location);
+                FuncAddMapLine();
             }
         }
 
@@ -473,6 +478,55 @@ namespace GpsTestProject
 
                 _map_elm_lyr_icon.MapElements.Add(map_icon);
             }
+        }
+
+        private void FuncAddMapLine()
+        {
+            //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            //  2点間でラインを引くため、2点より少ない場合は処理しない
+            if (_lst_geopoint_line.Count <= 1)
+            {
+                return;
+            }
+
+            //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            //  チェックがない場合は処理しない
+            if (true != chkBx_軌跡表示.IsChecked)
+            {
+                return;
+            }
+
+            //  位置リスト設定
+            List<BasicGeoposition> lst_bgeo_pos = new List<BasicGeoposition>
+            {
+                //  今回値
+                new BasicGeoposition
+                {
+                    Latitude = _lst_geopoint_line[_lst_geopoint_line.Count-1].Position.Latitude,
+                    Longitude = _lst_geopoint_line[_lst_geopoint_line.Count - 1].Position.Longitude,
+                    Altitude = 0,
+                },
+
+                //  前回値
+                new BasicGeoposition
+                {
+                    Latitude = _lst_geopoint_line[_lst_geopoint_line.Count - 2].Position.Latitude,
+                    Longitude = _lst_geopoint_line[_lst_geopoint_line.Count - 2].Position.Longitude,
+                    Altitude = 0,
+                },
+            };
+
+            MapPolyline map_line = new MapPolyline
+            {
+                Path = new Geopath(lst_bgeo_pos),
+                StrokeColor = Colors.Black,
+                StrokeThickness = 5,
+
+                ZIndex = 0
+            };
+
+            //  線情報追加
+            _map_elm_lyr_line.MapElements.Add(map_line);
         }
 
         #endregion デバッグメニュー
