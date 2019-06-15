@@ -40,7 +40,6 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <!--トラッキング類ボタン、トラッキング情報-->  <RowDefinition Height="auto"/>
-                    <!--ＧＰＳ状態表示-->                          <RowDefinition Height="auto"/>  
                     <!--マップ用設定-->                            <RowDefinition Height="auto"/>
                     <!--地図表示-->                                <RowDefinition Height="*"/>   
                 </Grid.RowDefinitions>
@@ -48,32 +47,39 @@
                 <!--トラッキング類ボタン、トラッキング情報-->
                 <StackPanel Orientation="Horizontal" Grid.Row="0">
                     <StackPanel Orientation="Vertical" Margin="20,10,0,0">
-                        <Button x:Name="btnTrackingStart" Margin="0,10,0,0" Content="【トラッキング】開始" Click="EvtBtnStartTracking_Click"></Button>
+                        <Button x:Name="btnTrackingStart" Margin="0,0,0,0" Content="【トラッキング】開始" Click="EvtBtnStartTracking_Click"></Button>
                         <Button x:Name="btnTrackingStop" Margin="0,10,0,0" Content="【トラッキング】終了" Click="EvtBtnStopTracking_Click" IsEnabled="False"></Button>
                     </StackPanel>
 
-                    <StackPanel Orientation="Vertical">
-                        <CheckBox x:Name="chkBx_中心点表示" Margin="10,10,0,0"
+                    <StackPanel Orientation="Vertical" Margin="20,10,0,0">
+                        <CheckBox x:Name="chkBx_中心点表示" Margin="0,0,0,0"
                                   Click="EvtChkBx_DispTrack_Click" 
                                   >
                             <TextBlock>中心点表示</TextBlock>
                         </CheckBox>
-                        <CheckBox x:Name="chkBx_軌跡表示" Margin="10,0,0,0"
+                        <CheckBox x:Name="chkBx_軌跡表示" Margin="0,0,0,0"
                                   >
                             <TextBlock>軌跡表示</TextBlock>
                         </CheckBox>
-                        
+
                     </StackPanel>
 
-                    <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,20,0,0">
+                    <!--ＧＰＳ情報表示-->
+                    <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10,0,0">
                         <Grid.ColumnDefinitions>
+                            <!--説明-->
                             <ColumnDefinition Width="auto" />
+                            <!--内容-->
                             <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
+                            <!--状態-->
                             <RowDefinition Height="auto" />
+                            <!--緯度-->
                             <RowDefinition Height="auto" />
+                            <!--経度-->
                             <RowDefinition Height="auto" />
+                            <!--精度-->
                             <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
                         <TextBlock TextWrapping="NoWrap" Margin="0,0,10,0" Grid.Row="0" Grid.Column="0" Text="状態：" Style="{StaticResource BasicTextStyle}"/>
@@ -86,48 +92,50 @@
                         <TextBlock x:Name="txBk_精度" TextWrapping="NoWrap" Margin="0,0,10,0" Grid.Row="3" Grid.Column="1" Text="不明" Style="{StaticResource BasicTextStyle}"/>
                     </Grid>
 
-                </StackPanel>
-
-                <!--ＧＰＳ状態表示-->
-                <StackPanel Orientation="Vertical" Grid.Row="1" Margin="10,10,0,10">
-                    <StackPanel x:Name="StatusPanel" Orientation="Vertical">
-                        <TextBlock x:Name="StatusLabel" Margin="0,10,0,0" Text="＜状態＞"/>
-                        <Border x:Name="StatusBorder" Margin="0,0,0,0">
-                            <ScrollViewer VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto" MaxHeight="200">
-                                <TextBlock x:Name="StatusBlock" FontWeight="Bold" AutomationProperties.LiveSetting="Assertive" Margin="10,5,0,0" Text="ＧＰＳ非動作"/>
-                            </ScrollViewer>
-                        </Border>
-                    </StackPanel>
-                    <TextBlock TextWrapping="Wrap" x:Name="txBk_位置情報無効時説明" Margin="0,10,0,0" FontStyle="Italic" Visibility="Collapsed">
+                    <!--ＧＰＳ状態表示-->
+                    <StackPanel Orientation="Vertical" Margin="20,0,0,0">
+                        <StackPanel x:Name="StatusPanel" Orientation="Vertical">
+                            <TextBlock x:Name="StatusLabel" Margin="0,10,0,0" Text="＜状態＞"/>
+                            <Border x:Name="StatusBorder" Margin="0,0,0,0">
+                                <ScrollViewer VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto" MaxHeight="200">
+                                    <TextBlock x:Name="StatusBlock" FontWeight="Bold" AutomationProperties.LiveSetting="Assertive" Margin="10,5,0,0" Text="ＧＰＳ非動作"/>
+                                </ScrollViewer>
+                            </Border>
+                        </StackPanel>
+                        <TextBlock TextWrapping="Wrap" x:Name="txBk_位置情報無効時説明" Margin="0,10,0,0" FontStyle="Italic" Visibility="Collapsed">
                         <Run Text="Application is not able to get location data. Go to " />
                         <Hyperlink NavigateUri="ms-settings:privacy-location">
                             <Run Text="Settings" />
                         </Hyperlink>
                         <Run Text=" to check the location permissions."/>
-                    </TextBlock>
+                        </TextBlock>
+                    </StackPanel>
                 </StackPanel>
 
                 <!--マップ用設定-->
-                <StackPanel Orientation="Vertical" Grid.Row="2">
-                    <Slider Minimum="1" Maximum="20" Header="地図拡縮" Name="sliderZoom" Value="18" Margin="10,0,10,0"/>
-                    <Slider Minimum="0" Maximum="360" Header="地図回転" Name="sliderHead" Value="0" Margin="10,0,10,0"/>
-                    <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" Grid.Row="1">
+                    <StackPanel Orientation="Vertical" Width="1000">
+                        <Slider Minimum="1" Maximum="20" Header="地図拡縮" Name="sliderZoom" Value="18" Margin="10,0,10,0"/>
+                        <Slider Minimum="0" Maximum="360" Header="地図回転" Name="sliderHead" Value="0" Margin="10,0,10,0"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Vertical">
                         <ComboBox Header="表示形式" Name="cmbxStyle" SelectionChanged="EvtCmbxStyle_SelectionChanged" Margin="10">
-                            <ComboBoxItem>None</ComboBoxItem>                       <!--スタイルなし-->
-                            <ComboBoxItem>Road</ComboBoxItem>                       <!--道路地図を表示-->
-                            <ComboBoxItem IsSelected="True">Aerial</ComboBoxItem>   <!--航空写真地図を表示-->
-                            <ComboBoxItem>AerialWithRoads</ComboBoxItem>            <!--航空地図＆道路地図を表示-->
-                            <ComboBoxItem>Terrain</ComboBoxItem>                    <!--地形地図を表示-->
+                            <!--スタイルなし-->                <ComboBoxItem>None</ComboBoxItem>
+                            <!--道路地図を表示-->              <ComboBoxItem>Road</ComboBoxItem>
+                            <!--航空写真地図を表示-->          <ComboBoxItem IsSelected="True">Aerial</ComboBoxItem>
+                            <!--航空地図＆道路地図を表示-->    <ComboBoxItem>AerialWithRoads</ComboBoxItem>
+                            <!--地形地図を表示-->              <ComboBoxItem>Terrain</ComboBoxItem>
                         </ComboBox>
-                        <ComboBox Header="Projection" Name="cmbxProjection" SelectionChanged="EvtCmbxProjection_SelectionChanged" Margin="10">
-                            <ComboBoxItem IsSelected="True">Web Mercator</ComboBoxItem>
-                            <ComboBoxItem>Globe</ComboBoxItem>
+                        <ComboBox Header="地図形式" Name="cmbxProjection" SelectionChanged="EvtCmbxProjection_SelectionChanged" Margin="10">
+                            <!--メルカトル図 → 平面図-->   <ComboBoxItem IsSelected="True">Web Mercator</ComboBoxItem>
+                            <!--地球投影 → 球面図-->       <ComboBoxItem>Globe</ComboBoxItem>
                         </ComboBox>
                     </StackPanel>
                 </StackPanel>
 
                 <!--地図表示-->
-                <maps:MapControl x:Name="gpsMap" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                <maps:MapControl x:Name="gpsMap" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                      ZoomLevel="{Binding ElementName=sliderZoom,Path=Value,Mode=TwoWay}"
                                      Heading="{Binding ElementName=sliderHead,Path=Value,Mode=TwoWay}"
                                      Loaded="EvtGpsMap_Loaded"
