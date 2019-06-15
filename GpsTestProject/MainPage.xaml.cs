@@ -306,7 +306,7 @@ namespace GpsTestProject
 
                 //  マップアイコン追加
                 bool update = false;
-                if(true == chkBx_軌跡表示.IsChecked)
+                if(true == chkBx_中心点表示.IsChecked)
                 {
                     update = true;
                 }
@@ -432,7 +432,7 @@ namespace GpsTestProject
 
                 //  マップアイコン追加
                 bool update = false;
-                if (true == chkBx_軌跡表示.IsChecked)
+                if (true == chkBx_中心点表示.IsChecked)
                 {
                     update = true;
                 }

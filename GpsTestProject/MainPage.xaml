@@ -53,10 +53,10 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox x:Name="chkBx_軌跡表示" Margin="10,0,0,0"
+                        <CheckBox x:Name="chkBx_中心点表示" Margin="10,0,0,0"
                                   Click="EvtChkBx_DispTrack_Click" 
                                   >
-                            <TextBlock>軌跡表示</TextBlock>
+                            <TextBlock>中心点表示</TextBlock>
                         </CheckBox>
                         
                     </StackPanel>
