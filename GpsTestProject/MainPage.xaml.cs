@@ -447,6 +447,7 @@ namespace GpsTestProject
 
         #endregion デバッグメニュー
 
+        #region マップ要素更新
         /// <summary>
         /// マップアイコン更新（チェックボックスのチェック）
         /// </summary>
@@ -535,5 +536,7 @@ namespace GpsTestProject
             //  線情報追加
             _map_elm_lyr_line.MapElements.Add(map_line);
         }
+        #endregion マップ要素更新
+
     }
 }
