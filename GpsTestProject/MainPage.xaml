@@ -41,6 +41,7 @@
                 <Grid.RowDefinitions>
                     <!--トラッキング類ボタン、トラッキング情報-->  <RowDefinition Height="auto"/>
                     <!--マップ用設定-->                            <RowDefinition Height="auto"/>
+                    <!--マップの上に表示する進行方向-->            <RowDefinition Height="auto"/>
                     <!--地図表示-->                                <RowDefinition Height="*"/>   
                 </Grid.RowDefinitions>
 
@@ -121,30 +122,37 @@
 
                     <StackPanel Orientation="Vertical">
                         <ComboBox Header="表示形式" Name="cmbxStyle" SelectionChanged="EvtCmbxStyle_SelectionChanged" Margin="10">
-                            <!--スタイルなし-->                <ComboBoxItem>None</ComboBoxItem>
-                            <!--道路地図を表示-->              <ComboBoxItem>Road</ComboBoxItem>
-                            <!--航空写真地図を表示-->          <ComboBoxItem IsSelected="True">Aerial</ComboBoxItem>
-                            <!--航空地図＆道路地図を表示-->    <ComboBoxItem>AerialWithRoads</ComboBoxItem>
-                            <!--地形地図を表示-->              <ComboBoxItem>Terrain</ComboBoxItem>
+                            <!--スタイルなし-->
+                            <ComboBoxItem>None</ComboBoxItem>
+                            <!--道路地図を表示-->
+                            <ComboBoxItem>Road</ComboBoxItem>
+                            <!--航空写真地図を表示-->
+                            <ComboBoxItem IsSelected="True">Aerial</ComboBoxItem>
+                            <!--航空地図＆道路地図を表示-->
+                            <ComboBoxItem>AerialWithRoads</ComboBoxItem>
+                            <!--地形地図を表示-->
+                            <ComboBoxItem>Terrain</ComboBoxItem>
                         </ComboBox>
                         <ComboBox Header="地図形式" Name="cmbxProjection" SelectionChanged="EvtCmbxProjection_SelectionChanged" Margin="10">
-                            <!--メルカトル図 → 平面図-->   <ComboBoxItem IsSelected="True">Web Mercator</ComboBoxItem>
-                            <!--地球投影 → 球面図-->       <ComboBoxItem>Globe</ComboBoxItem>
+                            <!--メルカトル図 → 平面図-->
+                            <ComboBoxItem IsSelected="True">Web Mercator</ComboBoxItem>
+                            <!--地球投影 → 球面図-->
+                            <ComboBoxItem>Globe</ComboBoxItem>
                         </ComboBox>
                     </StackPanel>
                 </StackPanel>
 
                 <!--地図表示-->
-                <Canvas Grid.Row="2">
-                    <Rectangle Fill="Yellow" Canvas.Left="10" Canvas.Top="10" Canvas.ZIndex="1" Width="75" Height="75"/>
-                    <maps:MapControl x:Name="gpsMap" Canvas.Left="0" Canvas.Top="0" Canvas.ZIndex="0"
-                                     Width="500" Height="500"
+                <maps:MapControl x:Name="gpsMap" Grid.Row="3" Margin="0,-85,0,0"
                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                      ZoomLevel="{Binding ElementName=sliderZoom,Path=Value,Mode=TwoWay}"
                                      Heading="{Binding ElementName=sliderHead,Path=Value,Mode=TwoWay}"
                                      Loaded="EvtGpsMap_Loaded"
                                      />
-                </Canvas>
+
+                <!--マップの上に表示する進行方向  ※地図の上に重ねて表示するために描画の関係上、地図の下に記入-->
+                <Rectangle Fill="Yellow" Grid.Row="2" Width="75" Height="75" Margin="10,0,0,0"  HorizontalAlignment="Left" />
+
             </Grid>
 
             <!--デバッグ用座標指定用マップ表示-->
