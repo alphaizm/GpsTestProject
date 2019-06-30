@@ -315,7 +315,7 @@ namespace GpsTestProject
 
                 //  軌跡追加
                 _lst_geopoint_line.Add(pos_.Coordinate.Point);
-                FuncAddMapLine();
+                FuncAddMapLine(_lst_geopoint_line);
             }
         }
         #endregion トラッキング制御
@@ -441,7 +441,10 @@ namespace GpsTestProject
 
                 //  軌跡追加
                 _lst_geopoint_line.Add(args_.Location);
-                FuncAddMapLine();
+                FuncAddMapLine(_lst_geopoint_line);
+
+                //  進行角度
+                double phi = FuncCalcRelativeAngle(_lst_geopoint_line);
             }
         }
 
@@ -488,11 +491,11 @@ namespace GpsTestProject
         /// <summary>
         /// マップライン更新
         /// </summary>
-        private void FuncAddMapLine()
+        private void FuncAddMapLine(List<Geopoint> lst_pos_)
         {
             //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
             //  2点間でラインを引くため、2点より少ない場合は処理しない
-            if (_lst_geopoint_line.Count <= 1)
+            if (lst_pos_.Count <= 1)
             {
                 return;
             }
@@ -507,19 +510,19 @@ namespace GpsTestProject
             //  位置リスト設定
             List<BasicGeoposition> lst_bgeo_pos = new List<BasicGeoposition>
             {
-                //  今回値
-                new BasicGeoposition
-                {
-                    Latitude = _lst_geopoint_line[_lst_geopoint_line.Count-1].Position.Latitude,
-                    Longitude = _lst_geopoint_line[_lst_geopoint_line.Count - 1].Position.Longitude,
-                    Altitude = 0,
-                },
-
                 //  前回値
                 new BasicGeoposition
                 {
-                    Latitude = _lst_geopoint_line[_lst_geopoint_line.Count - 2].Position.Latitude,
-                    Longitude = _lst_geopoint_line[_lst_geopoint_line.Count - 2].Position.Longitude,
+                    Latitude = lst_pos_[lst_pos_.Count - 2].Position.Latitude,
+                    Longitude = lst_pos_[lst_pos_.Count - 2].Position.Longitude,
+                    Altitude = 0,
+                },
+
+                //  今回値
+                new BasicGeoposition
+                {
+                    Latitude = lst_pos_[lst_pos_.Count - 1].Position.Latitude,
+                    Longitude = lst_pos_[lst_pos_.Count - 1].Position.Longitude,
                     Altitude = 0,
                 },
             };
@@ -538,5 +541,69 @@ namespace GpsTestProject
         }
         #endregion マップ要素更新
 
+        /// <summary>
+        /// 移動方向の方位角
+        /// 北：0°
+        /// 東：90°
+        /// 南：180°
+        /// 西：270°
+        /// </summary>
+        /// <param name="lst_pos_"></param>
+        /// <returns></returns>
+        private double FuncCalcRelativeAngle(List<Geopoint> lst_pos_)
+        {
+            //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            //  2点間で角度を計算ため、2点より少ない場合は処理しない
+            if (lst_pos_.Count <= 1)
+            {
+                return 0;
+            }
+
+            //  ※※※※※※※※※※※※※※※※※※※※※※※
+            //  三角関数で計算する場合、角度→ラジアンへ変換
+            //  ※※※※※※※※※※※※※※※※※※※※※※※
+
+            //  地点B（経度[longitude]x2, 緯度[latitude]y2）
+            double x2 = FuncRot2Rad(lst_pos_[lst_pos_.Count - 1].Position.Longitude);
+            double y2 = FuncRot2Rad(lst_pos_[lst_pos_.Count - 1].Position.Latitude);
+
+            //  地点A（経度[longitude]x1, 緯度[latitude]y1）
+            double x1 = FuncRot2Rad(lst_pos_[lst_pos_.Count - 2].Position.Longitude);
+            double y1 = FuncRot2Rad(lst_pos_[lst_pos_.Count - 2].Position.Latitude);
+
+            double delta_x = x2 - x1;
+            bool south_lower = false;
+            if(delta_x <= 0)
+            {
+                south_lower = true;
+            }
+
+            //  atan：分子
+            double arg_numerator = Math.Sin(delta_x);
+
+            //  atan：分母
+            double arg_denominator_1 = Math.Cos(y1) * Math.Tan(y2);
+            double arg_denominator_2 = Math.Sin(y1) * Math.Cos(delta_x);
+            double arg_denominator = arg_denominator_1 - arg_denominator_2;
+
+            double phi = Math.Atan(arg_numerator / arg_denominator);
+            phi = FuncRad2Rod(phi);
+            if (south_lower)
+            {
+                phi += 180;
+            }
+
+            return phi;
+        }
+
+        private double FuncRot2Rad(double degrees_)
+        {
+            return ((degrees_ * Math.PI) / 180);
+        }
+
+        private double FuncRad2Rod(double radian_)
+        {
+            return ((radian_ * 180) / Math.PI);
+        }
     }
 }
