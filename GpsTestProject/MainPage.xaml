@@ -135,12 +135,16 @@
                 </StackPanel>
 
                 <!--地図表示-->
-                <maps:MapControl x:Name="gpsMap" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                <Canvas Grid.Row="2">
+                    <Rectangle Fill="Yellow" Canvas.Left="10" Canvas.Top="10" Canvas.ZIndex="1" Width="75" Height="75"/>
+                    <maps:MapControl x:Name="gpsMap" Canvas.Left="0" Canvas.Top="0" Canvas.ZIndex="0"
+                                     Width="500" Height="500"
+                                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                      ZoomLevel="{Binding ElementName=sliderZoom,Path=Value,Mode=TwoWay}"
                                      Heading="{Binding ElementName=sliderHead,Path=Value,Mode=TwoWay}"
                                      Loaded="EvtGpsMap_Loaded"
                                      />
-
+                </Canvas>
             </Grid>
 
             <!--デバッグ用座標指定用マップ表示-->
