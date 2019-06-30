@@ -143,15 +143,19 @@
                 </StackPanel>
 
                 <!--地図表示-->
-                <maps:MapControl x:Name="gpsMap" Grid.Row="3" Margin="0,-85,0,0"
+                <maps:MapControl x:Name="gpsMap" Grid.Row="3" Margin="0,0,0,0"
                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                      ZoomLevel="{Binding ElementName=sliderZoom,Path=Value,Mode=TwoWay}"
                                      Heading="{Binding ElementName=sliderHead,Path=Value,Mode=TwoWay}"
                                      Loaded="EvtGpsMap_Loaded"
                                      />
 
-                <!--マップの上に表示する進行方向  ※地図の上に重ねて表示するために描画の関係上、地図の下に記入-->
-                <Rectangle Fill="Yellow" Grid.Row="2" Width="75" Height="75" Margin="10,0,0,0"  HorizontalAlignment="Left" />
+                <!--マップの上に表示する進行方向-->
+                <!--  ※地図の上に重ねて表示するために描画の関係上、地図の下に記入-->
+                <Canvas Grid.Column="2" HorizontalAlignment="Left">
+                    <Rectangle Fill="Yellow" Width="75" Height="75" Canvas.Left="5" Canvas.Top="240"/>
+
+                </Canvas>
 
             </Grid>
 
