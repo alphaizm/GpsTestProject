@@ -445,6 +445,11 @@ namespace GpsTestProject
 
                 //  進行角度
                 double phi = FuncCalcRelativeAngle(_lst_geopoint_line);
+                imgArrow.RenderTransform = new RotateTransform()
+                {
+                    Angle = phi,
+                };
+                txBk_進行角度.Text = phi.ToString();
             }
         }
 

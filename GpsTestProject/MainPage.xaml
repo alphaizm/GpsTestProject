@@ -152,9 +152,27 @@
 
                 <!--マップの上に表示する進行方向-->
                 <!--  ※地図の上に重ねて表示するために描画の関係上、地図の下に記入-->
-                <Canvas Grid.Column="2" HorizontalAlignment="Left">
-                    <Rectangle Fill="Yellow" Width="75" Height="75" Canvas.Left="5" Canvas.Top="240"/>
+                <Canvas Grid.Row="2" HorizontalAlignment="Left">
+                    <Rectangle Fill="Yellow" Canvas.Left="5" Canvas.Top="5" Width="75" Height="75" />
+                    <Image x:Name="imgArrow" Canvas.Left="5" Canvas.Top="5" Width="75" Height="75"
+                           VerticalAlignment="Center" HorizontalAlignment="Center"
+                           Source="ms-appx:///Assets/arrow.png" 
+                           RenderTransformOrigin="0.5,0.5"
+                           />
+                    <Grid Canvas.Left="95" Canvas.Top="5">
+                        <Grid.ColumnDefinitions>
+                            <!--説明-->   <ColumnDefinition Width="auto" />
+                            <!--内容-->   <ColumnDefinition Width="auto" />
+                            <!--補足-->   <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <!--角度-->   <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
 
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="進行角度：" Style="{StaticResource MapTextStyle}"/>
+                        <TextBlock x:Name="txBk_進行角度" Grid.Row="0" Grid.Column="1" Text="0" Style="{StaticResource MapTextStyle}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="°＜北＝0°／東＝90°／南＝180°／西＝270°＞" Style="{StaticResource MapTextStyle}"/>
+                    </Grid>
                 </Canvas>
 
             </Grid>
