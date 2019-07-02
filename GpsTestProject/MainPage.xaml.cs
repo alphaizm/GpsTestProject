@@ -577,8 +577,9 @@ namespace GpsTestProject
             double y1 = FuncRot2Rad(lst_pos_[lst_pos_.Count - 2].Position.Latitude);
 
             double delta_x = x2 - x1;
+            double dleta_y = y2 - y1;
             bool south_lower = false;
-            if(delta_x <= 0)
+            if(dleta_y <= 0)
             {
                 south_lower = true;
             }
@@ -591,14 +592,14 @@ namespace GpsTestProject
             double arg_denominator_2 = Math.Sin(y1) * Math.Cos(delta_x);
             double arg_denominator = arg_denominator_1 - arg_denominator_2;
 
-            double phi = Math.Atan(arg_numerator / arg_denominator);
-            phi = FuncRad2Rod(phi);
+            double phi_radian = Math.Atan(arg_numerator / arg_denominator);
+            double phi_rod = FuncRad2Rod(phi_radian);
             if (south_lower)
             {
-                phi += 180;
+                phi_rod += 180;
             }
 
-            return phi;
+            return phi_rod;
         }
 
         private double FuncRot2Rad(double degrees_)
