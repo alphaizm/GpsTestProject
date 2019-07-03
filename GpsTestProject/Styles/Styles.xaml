@@ -4,7 +4,7 @@
     xmlns:local="using:GpsTestProject.Styles">
 
     <Style x:Key="BasicTextStyle" TargetType="TextBlock" BasedOn="{StaticResource BodyTextBlockStyle}">
-        <Setter Property="Margin" Value="0,0,0,12"/>
+        <Setter Property="Margin" Value="0,0,5,0"/>
     </Style>
 
     <Style x:Key="MapTextStyle" TargetType="TextBlock" BasedOn="{StaticResource TitleTextBlockStyle}">

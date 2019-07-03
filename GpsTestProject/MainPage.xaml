@@ -83,14 +83,14 @@
                             <!--精度-->
                             <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
-                        <TextBlock TextWrapping="NoWrap" Margin="0,0,10,0" Grid.Row="0" Grid.Column="0" Text="状態：" Style="{StaticResource BasicTextStyle}"/>
-                        <TextBlock TextWrapping="NoWrap" Margin="0,0,10,0" Grid.Row="1" Grid.Column="0" Text="緯度：" Style="{StaticResource BasicTextStyle}"/>
-                        <TextBlock TextWrapping="NoWrap" Margin="0,0,10,0" Grid.Row="2" Grid.Column="0" Text="経度：" Style="{StaticResource BasicTextStyle}"/>
-                        <TextBlock TextWrapping="NoWrap" Margin="0,0,10,0" Grid.Row="3" Grid.Column="0" Text="精度：" Style="{StaticResource BasicTextStyle}"/>
-                        <TextBlock x:Name="txBk_状態" TextWrapping="NoWrap" Margin="0,0,10,0" Grid.Row="0" Grid.Column="1" Text="不明" Style="{StaticResource BasicTextStyle}"/>
-                        <TextBlock x:Name="txBk_緯度" TextWrapping="NoWrap" Margin="0,0,10,0" Grid.Row="1" Grid.Column="1" Text="不明" Style="{StaticResource BasicTextStyle}"/>
-                        <TextBlock x:Name="txBk_経度" TextWrapping="NoWrap" Margin="0,0,10,0" Grid.Row="2" Grid.Column="1" Text="不明" Style="{StaticResource BasicTextStyle}"/>
-                        <TextBlock x:Name="txBk_精度" TextWrapping="NoWrap" Margin="0,0,10,0" Grid.Row="3" Grid.Column="1" Text="不明" Style="{StaticResource BasicTextStyle}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="状態：" Style="{StaticResource BasicTextStyle}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="緯度：" Style="{StaticResource BasicTextStyle}"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="経度：" Style="{StaticResource BasicTextStyle}"/>
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="精度：" Style="{StaticResource BasicTextStyle}"/>
+                        <TextBlock x:Name="txBk_状態" Grid.Row="0" Grid.Column="1" Text="不明" Style="{StaticResource BasicTextStyle}"/>
+                        <TextBlock x:Name="txBk_緯度" Grid.Row="1" Grid.Column="1" Text="不明" Style="{StaticResource BasicTextStyle}"/>
+                        <TextBlock x:Name="txBk_経度" Grid.Row="2" Grid.Column="1" Text="不明" Style="{StaticResource BasicTextStyle}"/>
+                        <TextBlock x:Name="txBk_精度" Grid.Row="3" Grid.Column="1" Text="不明" Style="{StaticResource BasicTextStyle}"/>
                     </Grid>
 
                     <!--ＧＰＳ状態表示-->
