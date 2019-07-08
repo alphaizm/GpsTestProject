@@ -40,7 +40,6 @@ namespace GpsTestProject
 
         //  中心点用マップレイヤー
         private MapElementsLayer _map_elm_lyr_icon = new MapElementsLayer();
-
         //  軌跡用中心座標リスト
         private List<Geopoint> _lst_geopoint_line = new List<Geopoint>();
         private MapElementsLayer _map_elm_lyr_line = new MapElementsLayer();
@@ -316,6 +315,10 @@ namespace GpsTestProject
                 //  軌跡追加
                 _lst_geopoint_line.Add(pos_.Coordinate.Point);
                 FuncAddMapLine(_lst_geopoint_line);
+
+                //  進行角度
+                double phi = FuncCalcRelativeAngle(_lst_geopoint_line);
+                FuncUpdateRelativeAngle(phi);
             }
         }
         #endregion トラッキング制御
@@ -445,11 +448,8 @@ namespace GpsTestProject
 
                 //  進行角度
                 double phi = FuncCalcRelativeAngle(_lst_geopoint_line);
-                imgArrow.RenderTransform = new RotateTransform()
-                {
-                    Angle = phi,
-                };
-                txBk_進行角度.Text = phi.ToString();
+                FuncUpdateRelativeAngle(phi);
+               
             }
         }
 
@@ -610,6 +610,15 @@ namespace GpsTestProject
         private double FuncRad2Rod(double radian_)
         {
             return ((radian_ * 180) / Math.PI);
+        }
+
+        private void FuncUpdateRelativeAngle(double phi_)
+        {
+            imgArrow.RenderTransform = new RotateTransform()
+            {
+                Angle = phi_,
+            };
+            txBk_進行角度.Text = phi_.ToString();
         }
     }
 }
