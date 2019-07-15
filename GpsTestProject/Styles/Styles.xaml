@@ -104,4 +104,19 @@
         </Setter>
     </Style>
 
+    <Style x:Key="InputTextBoxStyle" TargetType="TextBox">
+        <Setter Property="MaxLength" Value="3"/>
+        <Setter Property="TextAlignment" Value="Right"/>
+        <Setter Property="BorderThickness" Value="0"/>  <!--ボーダーを表示したかったが、幅を指定すると掛けてしまう問題が発生。ボーダーオブジェクトを上において対応-->
+        <Setter Property="Width" Value="40"/>
+        <Setter Property="Padding" Value="6"/>  <!--テキスト位置を中央にもっていけなかったので、「Padding」で対応-->
+        <!--<Setter Property="VerticalContentAlignment" Value="Bottom" />-->
+    </Style>
+
+    <Style x:Key="InputTextBorder" TargetType="Border">
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="BorderBrush" Value="Red"/>
+        <Setter Property="Width" Value="40"/>
+    </Style>
+
 </ResourceDictionary>

@@ -25,7 +25,7 @@
             </Grid.ColumnDefinitions>
 
             <!--タイトル名-->
-            <TextBlock Text="トラクター向けGPS軌跡ログ" Style="{StaticResource TitleTextBlockStyle}" Margin="15,15,0,0" Grid.Column="0" />
+            <TextBlock Text="トラクター向けGPS軌跡ログ" Style="{StaticResource TitleTextBlockStyle}" Margin="5,15,0,0" Grid.Column="0" />
             <!--ハンバーガーメニュー-->
             <ToggleButton Style="{StaticResource SymbolButton}" Click="EvtTggBtn_Click" VerticalAlignment="Top" HorizontalAlignment="Right" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Grid.Column="1">
                 <ToggleButton.Content>
@@ -47,12 +47,13 @@
 
                 <!--トラッキング類ボタン、トラッキング情報-->
                 <StackPanel Orientation="Horizontal" Grid.Row="0">
-                    <StackPanel Orientation="Vertical" Margin="20,10,0,0">
+                    <StackPanel Orientation="Vertical" Margin="10,0,0,0">
                         <Button x:Name="btnTrackingStart" Margin="0,0,0,0" Content="【トラッキング】開始" Click="EvtBtnStartTracking_Click"></Button>
-                        <Button x:Name="btnTrackingStop" Margin="0,10,0,0" Content="【トラッキング】終了" Click="EvtBtnStopTracking_Click" IsEnabled="False"></Button>
+                        <Button x:Name="btnTrackingStop" Margin="0,5,0,0" Content="【トラッキング】終了" Click="EvtBtnStopTracking_Click" IsEnabled="False"></Button>
                     </StackPanel>
 
-                    <StackPanel Orientation="Vertical" Margin="20,10,0,0">
+                    <!--中心点・軌跡表示-->
+                    <StackPanel Orientation="Vertical" Margin="10,0,0,0">
                         <CheckBox x:Name="chkBx_中心点表示" Margin="0,0,0,0"
                                   Click="EvtChkBx_DispTrack_Click" 
                                   >
@@ -60,13 +61,52 @@
                         </CheckBox>
                         <CheckBox x:Name="chkBx_軌跡表示" Margin="0,0,0,0"
                                   >
-                            <TextBlock>軌跡表示</TextBlock>
+                            <TextBlock>中心軌跡表示</TextBlock>
+                        </CheckBox>
+
+                        <CheckBox x:Name="chkBx_左右点軌跡表示"
+                                  >
+                            <TextBlock Text="左右点軌跡表示"/>
                         </CheckBox>
 
                     </StackPanel>
 
-                    <!--ＧＰＳ情報表示-->
-                    <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10,0,0">
+                    <!--左右点幅指定-->
+                    <Grid Margin="10,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--左側指定-->
+                        <CheckBox x:Name="chkBx_左幅指定" Grid.Row="0" Grid.Column="0">
+                            <TextBlock>左幅指定</TextBlock>
+                        </CheckBox>
+                        <TextBox x:Name="txBx_左幅指定" Grid.Row="0" Grid.Column="1" Text="100" Style="{StaticResource InputTextBoxStyle}"/>
+                            <!--※「TextBox」のBorder指定では、幅を指定すると欠けてしまうため、別オブジェクトで対応-->
+                        <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource InputTextBorder}"/>
+                        <TextBlock Text="[cm]" VerticalAlignment="Center" Grid.Row="0" Grid.Column="2"/>
+
+                        <!--右側指定-->
+                        <CheckBox x:Name="chkBx_右幅指定" Grid.Row="1" Grid.Column="0">
+                            <TextBlock>右幅指定</TextBlock>
+                        </CheckBox>
+                        <TextBox x:Name="右幅指定" Grid.Row="1" Grid.Column="1" Text="100" Style="{StaticResource InputTextBoxStyle}"/>
+                        <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource InputTextBorder}"/>
+                        <TextBlock Text="[cm]" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2"/>
+
+                        <Slider Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Minimum="0" Maximum="360" Header="進行方向" Name="slider_進行方向" Value="0" />
+                    </Grid>
+
+
+                        <!--ＧＰＳ情報表示-->
+                    <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0">
                         <Grid.ColumnDefinitions>
                             <!--説明-->
                             <ColumnDefinition Width="auto" />
@@ -94,9 +134,9 @@
                     </Grid>
 
                     <!--ＧＰＳ状態表示-->
-                    <StackPanel Orientation="Vertical" Margin="20,0,0,0">
+                    <StackPanel Orientation="Vertical" Margin="10,0,0,0" Width="200">
                         <StackPanel x:Name="StatusPanel" Orientation="Vertical">
-                            <TextBlock x:Name="StatusLabel" Margin="0,10,0,0" Text="＜状態＞"/>
+                            <TextBlock x:Name="StatusLabel" Margin="0,0,0,0" Text="＜状態＞"/>
                             <Border x:Name="StatusBorder" Margin="0,0,0,0">
                                 <ScrollViewer VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto" MaxHeight="200">
                                     <TextBlock x:Name="StatusBlock" FontWeight="Bold" AutomationProperties.LiveSetting="Assertive" Margin="10,5,0,0" Text="ＧＰＳ非動作"/>
