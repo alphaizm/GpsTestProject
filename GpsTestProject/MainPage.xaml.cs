@@ -40,9 +40,12 @@ namespace GpsTestProject
 
         //  中心点用マップレイヤー
         private MapElementsLayer _map_elm_lyr_icon = new MapElementsLayer();
-        //  軌跡用中心座標リスト
+        //  中心軌跡用座標リスト
         private List<Geopoint> _lst_geopoint_line = new List<Geopoint>();
         private MapElementsLayer _map_elm_lyr_line = new MapElementsLayer();
+
+        //  左右軌跡用
+        private bool _bilateral_trace_start = false;
 
         public MainPage()
         {
@@ -614,11 +617,55 @@ namespace GpsTestProject
 
         private void FuncUpdateRelativeAngle(double phi_)
         {
-            imgArrow.RenderTransform = new RotateTransform()
+            imgArrowProgress.RenderTransform = new RotateTransform()
             {
                 Angle = phi_,
             };
             txBk_進行角度.Text = phi_.ToString();
+        }
+
+        /// <summary>
+        /// 【イベントハンドラー】
+        ///     発生タイミング
+        ///     ・"【チェックボックス】左右点軌跡表示"チェック付けた時
+        /// </summary>
+        /// <param name="sender_"></param>
+        /// <param name="e_"></param>
+        private void EvtChkBx_BilateralTrace_Checked(object sender_, RoutedEventArgs e_)
+        {
+            if (!_bilateral_trace_start)
+            {
+                
+            }
+        }
+
+        /// <summary>
+        /// 【イベントハンドラー】
+        ///     発生タイミング
+        ///     ・"【チェックボックス】左右点軌跡表示"チェック外した時
+        /// </summary>
+        /// <param name="sender_"></param>
+        /// <param name="e_"></param>
+        private void EvtChkBx_BilateralTrace_UnChecked(object sender_, RoutedEventArgs e_)
+        {
+            _bilateral_trace_start = false;
+        }
+
+        /// <summary>
+        /// 【イベントハンドラー】
+        ///     発生タイミング
+        ///     ・"【ページ】メイン"レイアウト変更時
+        /// </summary>
+        /// <param name="sender_"></param>
+        /// <param name="e_"></param>
+        private void EvtPage_LayoutUpdated(object sender_, object e_)
+        {
+            double left = (gpsMap.ActualWidth - imgArrowCenter.ActualWidth) / 2;
+            double top = (gpsMap.ActualHeight - imgArrowCenter.ActualHeight) / 2;
+
+            //  マップ中央に表示されるように調整
+            Canvas.SetLeft(imgArrowCenter, left);
+            Canvas.SetTop(imgArrowCenter, top);
         }
     }
 }
