@@ -580,9 +580,9 @@ namespace GpsTestProject
             double y1 = FuncRot2Rad(lst_pos_[lst_pos_.Count - 2].Position.Latitude);
 
             double delta_x = x2 - x1;
-            double dleta_y = y2 - y1;
+            double delta_y = y2 - y1;
             bool south_lower = false;
-            if(dleta_y <= 0)
+            if(delta_y <= 0)
             {
                 south_lower = true;
             }
