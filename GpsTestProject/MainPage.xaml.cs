@@ -617,10 +617,18 @@ namespace GpsTestProject
 
         private void FuncUpdateRelativeAngle(double phi_)
         {
+            //  左上矢印の進行方向の角度を更新
             imgArrowProgress.RenderTransform = new RotateTransform()
             {
                 Angle = phi_,
             };
+
+            //  中央矢印の進行方向の角度を更新
+            imgArrowCenter.RenderTransform = new RotateTransform()
+            {
+                Angle = phi_,
+            };
+
             txBk_進行角度.Text = phi_.ToString();
         }
 
