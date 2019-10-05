@@ -207,6 +207,8 @@
                            Source="ms-appx:///Assets/arrow_center.png" 
                            RenderTransformOrigin="0.5,0.5"
                            />
+
+                    <Rectangle Fill="Black" Canvas.Left="95" Canvas.Top="5" Width="850" Height="30" />
                     <Grid Canvas.Left="95" Canvas.Top="5">
                         <Grid.ColumnDefinitions>
                             <!--説明-->   <ColumnDefinition Width="auto" />
