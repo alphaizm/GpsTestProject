@@ -595,7 +595,8 @@ namespace GpsTestProject
             {
                 phi_rod += 180;
             }
-            else
+
+            if(phi_rod <= 0)
             {
                 phi_rod += 360;
             }
