@@ -581,12 +581,6 @@ namespace GpsTestProject
 
             double delta_x = x2 - x1;
             double delta_y = y2 - y1;
-            bool south_lower = false;
-            if(delta_y <= 0)
-            {
-                south_lower = true;
-            }
-
             //  atan：分子
             double arg_numerator = Math.Sin(delta_x);
 
@@ -597,9 +591,13 @@ namespace GpsTestProject
 
             double phi_radian = Math.Atan(arg_numerator / arg_denominator);
             double phi_rod = FuncRad2Rod(phi_radian);
-            if (south_lower)
+            if (delta_y <= 0)
             {
                 phi_rod += 180;
+            }
+            else
+            {
+                phi_rod += 360;
             }
 
             return phi_rod;
