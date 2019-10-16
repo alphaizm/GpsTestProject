@@ -100,7 +100,7 @@
                         <CheckBox x:Name="chkBx_右幅指定" Grid.Row="1" Grid.Column="0">
                             <TextBlock>右幅指定</TextBlock>
                         </CheckBox>
-                        <TextBox x:Name="右幅指定" Grid.Row="1" Grid.Column="1" Text="100" Style="{StaticResource InputTextBoxStyle}"/>
+                        <TextBox x:Name="txBx_右幅指定" Grid.Row="1" Grid.Column="1" Text="100" Style="{StaticResource InputTextBoxStyle}"/>
                         <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource InputTextBorder}"/>
                         <TextBlock Text="[cm]" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2"/>
 

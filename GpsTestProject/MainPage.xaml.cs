@@ -30,6 +30,12 @@ namespace GpsTestProject
         InitState
     };
 
+    public enum eLRside
+    {
+        Left,
+        Right
+    };
+
     /// <summary>
     /// それ自体で使用できる空白ページまたはフレーム内に移動できる空白ページ。
     /// </summary>
@@ -452,7 +458,17 @@ namespace GpsTestProject
                 //  進行角度
                 double phi = FuncCalcRelativeAngle(_lst_geopoint_line);
                 FuncUpdateRelativeAngle(phi);
-               
+
+                if(true == chkBx_左幅指定.IsChecked)
+                {
+                    BasicGeoposition pos_left = FuncCalcLocatioPos(_lst_geopoint_line[_lst_geopoint_line.Count].Position, phi, eLRside.Left);
+                }
+
+                if (true == chkBx_右幅指定.IsChecked)
+                {
+                    BasicGeoposition pos_right = FuncCalcLocatioPos(_lst_geopoint_line[_lst_geopoint_line.Count].Position, phi, eLRside.Right);
+                }
+
             }
         }
 
@@ -572,12 +588,12 @@ namespace GpsTestProject
             //  ※※※※※※※※※※※※※※※※※※※※※※※
 
             //  地点B（経度[longitude]x2, 緯度[latitude]y2）
-            double x2 = FuncRot2Rad(lst_pos_[lst_pos_.Count - 1].Position.Longitude);
-            double y2 = FuncRot2Rad(lst_pos_[lst_pos_.Count - 1].Position.Latitude);
+            double x2 = GeoPositioning.FuncAng2Rad(lst_pos_[lst_pos_.Count - 1].Position.Longitude);
+            double y2 = GeoPositioning.FuncAng2Rad(lst_pos_[lst_pos_.Count - 1].Position.Latitude);
 
             //  地点A（経度[longitude]x1, 緯度[latitude]y1）
-            double x1 = FuncRot2Rad(lst_pos_[lst_pos_.Count - 2].Position.Longitude);
-            double y1 = FuncRot2Rad(lst_pos_[lst_pos_.Count - 2].Position.Latitude);
+            double x1 = GeoPositioning.FuncAng2Rad(lst_pos_[lst_pos_.Count - 2].Position.Longitude);
+            double y1 = GeoPositioning.FuncAng2Rad(lst_pos_[lst_pos_.Count - 2].Position.Latitude);
 
             double delta_x = x2 - x1;
             double delta_y = y2 - y1;
@@ -590,7 +606,7 @@ namespace GpsTestProject
             double arg_denominator = arg_denominator_1 - arg_denominator_2;
 
             double phi_radian = Math.Atan(arg_numerator / arg_denominator);
-            double phi_rod = FuncRad2Rod(phi_radian);
+            double phi_rod = GeoPositioning.FuncRad2Ang(phi_radian);
             if (delta_y <= 0)
             {
                 phi_rod += 180;
@@ -604,15 +620,41 @@ namespace GpsTestProject
             return phi_rod;
         }
 
-        private double FuncRot2Rad(double degrees_)
+        private BasicGeoposition FuncCalcLocatioPos(BasicGeoposition now_, double angle_head_, eLRside side_)
         {
-            return ((degrees_ * Math.PI) / 180);
-        }
+            double angle_side = 0;
+            double distance = 0;
 
-        private double FuncRad2Rod(double radian_)
-        {
-            return ((radian_ * 180) / Math.PI);
+            //  左右の角度調整, 距離
+            if(eLRside.Left == side_)
+            {
+                distance = double.Parse(txBx_左幅指定.Text);
+                angle_side = angle_head_ - 90;
+                //  北～西間の場合、東～北間に補正
+                if(angle_side < 0)
+                {
+                    angle_side += 360;
+                }
+            }
+            else
+            {
+                distance = double.Parse(txBx_右幅指定.Text);
+                angle_side = angle_head_ + 90;
+                //  東～北間の場合、北～西間に補正
+                if (360 < angle_side)
+                {
+                    angle_side -= 360;
+                }
+            }
+
+            GeoPointDistance geo_pos = new GeoPointDistance(now_, angle_side, distance);
+            return new BasicGeoposition()
+            {
+                Latitude = geo_pos.lat_pos,
+                Longitude = geo_pos.lon_pos,
+            };
         }
+        
 
         private void FuncUpdateRelativeAngle(double phi_)
         {
@@ -630,6 +672,15 @@ namespace GpsTestProject
 
             txBk_進行角度.Text = phi_.ToString();
         }
+
+        private void FuncUpdateSidePoint(BasicGeoposition now_pos_)
+        {
+            GeoPointDistance pos_unit = new GeoPointDistance(now_pos_.Latitude);
+        }
+
+        //private BasicGeoposition FuncGetSlidePoint(BasicGeoposition now_pos_, double distance_, double heading_)
+        //{
+        //}
 
         /// <summary>
         /// 【イベントハンドラー】
