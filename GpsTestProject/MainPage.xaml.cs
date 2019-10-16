@@ -461,12 +461,12 @@ namespace GpsTestProject
 
                 if(true == chkBx_左幅指定.IsChecked)
                 {
-                    BasicGeoposition pos_left = FuncCalcLocatioPos(_lst_geopoint_line[_lst_geopoint_line.Count].Position, phi, eLRside.Left);
+                    BasicGeoposition pos_left = FuncCalcLocatioPos(args_.Location.Position, phi, eLRside.Left);
                 }
 
                 if (true == chkBx_右幅指定.IsChecked)
                 {
-                    BasicGeoposition pos_right = FuncCalcLocatioPos(_lst_geopoint_line[_lst_geopoint_line.Count].Position, phi, eLRside.Right);
+                    BasicGeoposition pos_right = FuncCalcLocatioPos(args_.Location.Position, phi, eLRside.Right);
                 }
 
             }
