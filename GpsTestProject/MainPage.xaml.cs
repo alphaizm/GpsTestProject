@@ -315,19 +315,8 @@ namespace GpsTestProject
                 txBk_経度.Text = pos_.Coordinate.Point.Position.Longitude.ToString();
                 txBk_精度.Text = pos_.Coordinate.Accuracy.ToString();
 
-                //  地図位置更新
-                gpsMap.Center = pos_.Coordinate.Point;
-
-                //  マップアイコン追加
-                FuncAddMapIconChecked(pos_.Coordinate.Point);
-
-                //  軌跡追加
-                _lst_geopoint_line.Add(pos_.Coordinate.Point);
-                FuncAddMapLine(_lst_geopoint_line);
-
-                //  進行角度
-                double phi = FuncCalcRelativeAngle(_lst_geopoint_line);
-                FuncUpdateRelativeAngle(phi);
+                //  地図内の情報更新
+                FuncUpdateMapInfo(pos_.Coordinate.Point);
             }
         }
         #endregion トラッキング制御
@@ -445,36 +434,41 @@ namespace GpsTestProject
         {
             if (true == chkBx_デバッグ用マップ使用切り替え.IsChecked)
             {
-                //  地図位置更新
-                gpsMap.Center = args_.Location;
-
-                //  マップアイコン追加
-                FuncAddMapIconChecked(args_.Location);
-
-                //  軌跡追加
-                _lst_geopoint_line.Add(args_.Location);
-                FuncAddMapLine(_lst_geopoint_line);
-
-                //  進行角度
-                double phi = FuncCalcRelativeAngle(_lst_geopoint_line);
-                FuncUpdateRelativeAngle(phi);
-
-                if(true == chkBx_左幅指定.IsChecked)
-                {
-                    BasicGeoposition pos_left = FuncCalcLocatioPos(args_.Location.Position, phi, eLRside.Left);
-                }
-
-                if (true == chkBx_右幅指定.IsChecked)
-                {
-                    BasicGeoposition pos_right = FuncCalcLocatioPos(args_.Location.Position, phi, eLRside.Right);
-                }
-
+                //  地図内の情報更新
+                FuncUpdateMapInfo(args_.Location);
             }
         }
 
         #endregion デバッグメニュー
 
         #region マップ要素更新
+        private void FuncUpdateMapInfo(Geopoint pos_)
+        {
+            //  地図位置更新
+            gpsMap.Center = pos_;
+
+            //  マップアイコン追加
+            FuncAddMapIconChecked(pos_);
+
+            //  軌跡追加
+            _lst_geopoint_line.Add(pos_);
+            FuncAddMapLine(_lst_geopoint_line);
+
+            //  進行角度
+            double phi = FuncCalcRelativeAngle(_lst_geopoint_line);
+            FuncUpdateRelativeAngle(phi);
+
+            if (true == chkBx_左幅指定.IsChecked)
+            {
+                BasicGeoposition pos_left = FuncCalcLocatioPos(pos_.Position, phi, eLRside.Left);
+            }
+
+            if (true == chkBx_右幅指定.IsChecked)
+            {
+                BasicGeoposition pos_right = FuncCalcLocatioPos(pos_.Position, phi, eLRside.Right);
+            }
+        }
+
         /// <summary>
         /// マップアイコン更新（チェックボックスのチェック）
         /// </summary>
