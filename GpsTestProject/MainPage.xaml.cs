@@ -47,7 +47,7 @@ namespace GpsTestProject
         //  中心点用マップレイヤー
         private MapElementsLayer _map_elm_lyr_icon = new MapElementsLayer();
         //  中心軌跡用座標リスト
-        private List<Geopoint> _lst_geopoint_line = new List<Geopoint>();
+        private List<BasicGeoposition> _lst_geopoint_line = new List<BasicGeoposition>();
         private MapElementsLayer _map_elm_lyr_line = new MapElementsLayer();
 
         //  左右軌跡用
@@ -451,7 +451,7 @@ namespace GpsTestProject
             FuncAddMapIconChecked(pos_);
 
             //  軌跡追加
-            _lst_geopoint_line.Add(pos_);
+            _lst_geopoint_line.Add(pos_.Position);
             FuncAddMapLine(_lst_geopoint_line);
 
             //  進行角度
@@ -509,7 +509,7 @@ namespace GpsTestProject
         /// <summary>
         /// マップライン更新
         /// </summary>
-        private void FuncAddMapLine(List<Geopoint> lst_pos_)
+        private void FuncAddMapLine(List<BasicGeoposition> lst_pos_)
         {
             //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
             //  2点間でラインを引くため、2点より少ない場合は処理しない
@@ -531,16 +531,16 @@ namespace GpsTestProject
                 //  前回値
                 new BasicGeoposition
                 {
-                    Latitude = lst_pos_[lst_pos_.Count - 2].Position.Latitude,
-                    Longitude = lst_pos_[lst_pos_.Count - 2].Position.Longitude,
+                    Latitude = lst_pos_[lst_pos_.Count - 2].Latitude,
+                    Longitude = lst_pos_[lst_pos_.Count - 2].Longitude,
                     Altitude = 0,
                 },
 
                 //  今回値
                 new BasicGeoposition
                 {
-                    Latitude = lst_pos_[lst_pos_.Count - 1].Position.Latitude,
-                    Longitude = lst_pos_[lst_pos_.Count - 1].Position.Longitude,
+                    Latitude = lst_pos_[lst_pos_.Count - 1].Latitude,
+                    Longitude = lst_pos_[lst_pos_.Count - 1].Longitude,
                     Altitude = 0,
                 },
             };
@@ -568,7 +568,7 @@ namespace GpsTestProject
         /// </summary>
         /// <param name="lst_pos_"></param>
         /// <returns></returns>
-        private double FuncCalcRelativeAngle(List<Geopoint> lst_pos_)
+        private double FuncCalcRelativeAngle(List<BasicGeoposition> lst_pos_)
         {
             //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
             //  2点間で角度を計算ため、2点より少ない場合は処理しない
@@ -582,12 +582,12 @@ namespace GpsTestProject
             //  ※※※※※※※※※※※※※※※※※※※※※※※
 
             //  地点B（経度[longitude]x2, 緯度[latitude]y2）
-            double x2 = GeoPositioning.FuncAng2Rad(lst_pos_[lst_pos_.Count - 1].Position.Longitude);
-            double y2 = GeoPositioning.FuncAng2Rad(lst_pos_[lst_pos_.Count - 1].Position.Latitude);
+            double x2 = GeoPositioning.FuncAng2Rad(lst_pos_[lst_pos_.Count - 1].Longitude);
+            double y2 = GeoPositioning.FuncAng2Rad(lst_pos_[lst_pos_.Count - 1].Latitude);
 
             //  地点A（経度[longitude]x1, 緯度[latitude]y1）
-            double x1 = GeoPositioning.FuncAng2Rad(lst_pos_[lst_pos_.Count - 2].Position.Longitude);
-            double y1 = GeoPositioning.FuncAng2Rad(lst_pos_[lst_pos_.Count - 2].Position.Latitude);
+            double x1 = GeoPositioning.FuncAng2Rad(lst_pos_[lst_pos_.Count - 2].Longitude);
+            double y1 = GeoPositioning.FuncAng2Rad(lst_pos_[lst_pos_.Count - 2].Latitude);
 
             double delta_x = x2 - x1;
             double delta_y = y2 - y1;
