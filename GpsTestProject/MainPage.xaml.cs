@@ -672,10 +672,6 @@ namespace GpsTestProject
             GeoPointDistance pos_unit = new GeoPointDistance(now_pos_.Latitude);
         }
 
-        //private BasicGeoposition FuncGetSlidePoint(BasicGeoposition now_pos_, double distance_, double heading_)
-        //{
-        //}
-
         /// <summary>
         /// 【イベントハンドラー】
         ///     発生タイミング
