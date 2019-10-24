@@ -45,10 +45,10 @@ namespace GpsTestProject
         private Geolocator _geolocator = null;
 
         //  中心点用マップレイヤー
-        private MapElementsLayer _map_elm_lyr_icon = new MapElementsLayer();
+        private MapElementsLayer _map_elm_lyr_icon_center = new MapElementsLayer();
         //  中心軌跡用座標リスト
-        private List<BasicGeoposition> _lst_geopoint_line = new List<BasicGeoposition>();
-        private MapElementsLayer _map_elm_lyr_line = new MapElementsLayer();
+        private List<BasicGeoposition> _lst_geopoint_line_center = new List<BasicGeoposition>();
+        private MapElementsLayer _map_elm_lyr_line_center = new MapElementsLayer();
 
         //  左右軌跡用
         private bool _bilateral_trace_start = false;
@@ -148,7 +148,7 @@ namespace GpsTestProject
         /// <param name="e_"></param>
         private void EvtChkBx_DispTrack_Click(object sender_, RoutedEventArgs e_)
         {
-            _map_elm_lyr_icon.MapElements.Clear();
+            _map_elm_lyr_icon_center.MapElements.Clear();
             FuncAddMapIcon(gpsMap.Center, true);
         }
 
@@ -330,8 +330,8 @@ namespace GpsTestProject
             FuncSetMapStyle();
             FuncSetMapProjection();
 
-            gpsMap.Layers.Add(_map_elm_lyr_icon);
-            gpsMap.Layers.Add(_map_elm_lyr_line);
+            gpsMap.Layers.Add(_map_elm_lyr_icon_center);
+            gpsMap.Layers.Add(_map_elm_lyr_line_center);
         }
 
         private void EvtCmbxStyle_SelectionChanged(object sender_, SelectionChangedEventArgs e_)
@@ -451,11 +451,11 @@ namespace GpsTestProject
             FuncAddMapIconChecked(pos_);
 
             //  軌跡追加
-            _lst_geopoint_line.Add(pos_.Position);
-            FuncAddMapLine(_lst_geopoint_line);
+            _lst_geopoint_line_center.Add(pos_.Position);
+            FuncAddMapLine(_lst_geopoint_line_center);
 
             //  進行角度
-            double phi = FuncCalcRelativeAngle(_lst_geopoint_line);
+            double phi = FuncCalcRelativeAngle(_lst_geopoint_line_center);
             FuncUpdateRelativeAngle(phi);
 
             if (true == chkBx_左幅指定.IsChecked)
@@ -502,7 +502,7 @@ namespace GpsTestProject
                     ZIndex = 0
                 };
 
-                _map_elm_lyr_icon.MapElements.Add(map_icon);
+                _map_elm_lyr_icon_center.MapElements.Add(map_icon);
             }
         }
 
@@ -555,7 +555,7 @@ namespace GpsTestProject
             };
 
             //  線情報追加
-            _map_elm_lyr_line.MapElements.Add(map_line);
+            _map_elm_lyr_line_center.MapElements.Add(map_line);
         }
         #endregion マップ要素更新
 
