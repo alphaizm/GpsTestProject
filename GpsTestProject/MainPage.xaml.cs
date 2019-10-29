@@ -30,10 +30,11 @@ namespace GpsTestProject
         InitState
     };
 
-    public enum eLRside
+    public enum eLRCside
     {
         Left,
-        Right
+        Right,
+        Center
     };
 
     /// <summary>
@@ -52,6 +53,18 @@ namespace GpsTestProject
 
         //  左右軌跡用
         private bool _bilateral_trace_start = false;
+
+        //  右側用マップレイヤー
+        private MapElementsLayer _map_elm_lyr_icon_right = new MapElementsLayer();
+        //  右側軌跡用座標リスト
+        private List<BasicGeoposition> _lst_geopoint_line_right = new List<BasicGeoposition>();
+        private MapElementsLayer _map_elm_lyr_line_right = new MapElementsLayer();
+
+        //  左側用マップレイヤー
+        private MapElementsLayer _map_elm_lyr_icon_left = new MapElementsLayer();
+        //  左側軌跡用座標リスト
+        private List<BasicGeoposition> _lst_geopoint_line_left = new List<BasicGeoposition>();
+        private MapElementsLayer _map_elm_lyr_line_left = new MapElementsLayer();
 
         public MainPage()
         {
@@ -149,7 +162,7 @@ namespace GpsTestProject
         private void EvtChkBx_DispTrack_Click(object sender_, RoutedEventArgs e_)
         {
             _map_elm_lyr_icon_center.MapElements.Clear();
-            FuncAddMapIcon(gpsMap.Center, true);
+            FuncAddMapIcon(gpsMap.Center, true, eLRCside.Center);
         }
 
         /// <summary>
@@ -332,6 +345,10 @@ namespace GpsTestProject
 
             gpsMap.Layers.Add(_map_elm_lyr_icon_center);
             gpsMap.Layers.Add(_map_elm_lyr_line_center);
+            gpsMap.Layers.Add(_map_elm_lyr_icon_right);
+            gpsMap.Layers.Add(_map_elm_lyr_line_right);
+            gpsMap.Layers.Add(_map_elm_lyr_icon_left);
+            gpsMap.Layers.Add(_map_elm_lyr_line_left);
         }
 
         private void EvtCmbxStyle_SelectionChanged(object sender_, SelectionChangedEventArgs e_)
@@ -448,11 +465,11 @@ namespace GpsTestProject
             gpsMap.Center = pos_;
 
             //  マップアイコン追加
-            FuncAddMapIconChecked(pos_);
+            FuncAddMapIconChecked(pos_, chkBx_中心点表示.IsChecked, eLRCside.Center);
 
             //  軌跡追加
             _lst_geopoint_line_center.Add(pos_.Position);
-            FuncAddMapLine(_lst_geopoint_line_center);
+            FuncAddMapLine(_lst_geopoint_line_center, eLRCside.Center);
 
             //  進行角度
             double phi = FuncCalcRelativeAngle(_lst_geopoint_line_center);
@@ -460,12 +477,12 @@ namespace GpsTestProject
 
             if (true == chkBx_左幅指定.IsChecked)
             {
-                BasicGeoposition pos_left = FuncCalcLocatioPos(pos_.Position, phi, eLRside.Left);
+                BasicGeoposition pos_left = FuncCalcLocatioPos(pos_.Position, phi, eLRCside.Left);
             }
 
             if (true == chkBx_右幅指定.IsChecked)
             {
-                BasicGeoposition pos_right = FuncCalcLocatioPos(pos_.Position, phi, eLRside.Right);
+                BasicGeoposition pos_right = FuncCalcLocatioPos(pos_.Position, phi, eLRCside.Right);
             }
         }
 
@@ -473,22 +490,25 @@ namespace GpsTestProject
         /// マップアイコン更新（チェックボックスのチェック）
         /// </summary>
         /// <param name="pos_"></param>
-        private void FuncAddMapIconChecked(Geopoint pos_)
+        /// <param name="chked_"></param>
+        private void FuncAddMapIconChecked(Geopoint pos_, bool? chked_, eLRCside side_)
         {
             bool update = false;
-            if (true == chkBx_中心点表示.IsChecked)
+            if (chked_.HasValue)
             {
                 update = true;
             }
 
-            FuncAddMapIcon(pos_, update);
+            FuncAddMapIcon(pos_, update, side_);
         }
 
         /// <summary>
         /// マップアイコン更新
         /// </summary>
         /// <param name="pos_"></param>
-        private void FuncAddMapIcon(Geopoint pos_, bool update_)
+        /// <param name="update_"></param>
+        /// <param name="side_"></param>
+        private void FuncAddMapIcon(Geopoint pos_, bool update_, eLRCside side_)
         {
             if (update_)
             {
@@ -502,14 +522,26 @@ namespace GpsTestProject
                     ZIndex = 0
                 };
 
-                _map_elm_lyr_icon_center.MapElements.Add(map_icon);
+                switch (side_)
+                {
+                    case eLRCside.Left:
+                        _map_elm_lyr_icon_left.MapElements.Add(map_icon);
+                        break;
+                    case eLRCside.Right:
+                        _map_elm_lyr_icon_right.MapElements.Add(map_icon);
+                        break;
+                    case eLRCside.Center:
+                    default:
+                        _map_elm_lyr_icon_center.MapElements.Add(map_icon);
+                        break;
+                }
             }
         }
 
         /// <summary>
         /// マップライン更新
         /// </summary>
-        private void FuncAddMapLine(List<BasicGeoposition> lst_pos_)
+        private void FuncAddMapLine(List<BasicGeoposition> lst_pos_, eLRCside side_)
         {
             //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
             //  2点間でラインを引くため、2点より少ない場合は処理しない
@@ -526,7 +558,7 @@ namespace GpsTestProject
             }
 
             //  位置リスト設定
-            List<BasicGeoposition> lst_bgeo_pos = new List<BasicGeoposition>
+            List<BasicGeoposition> lst_geo_pos = new List<BasicGeoposition>
             {
                 //  前回値
                 new BasicGeoposition
@@ -547,7 +579,7 @@ namespace GpsTestProject
 
             MapPolyline map_line = new MapPolyline
             {
-                Path = new Geopath(lst_bgeo_pos),
+                Path = new Geopath(lst_geo_pos),
                 StrokeColor = Colors.Black,
                 StrokeThickness = 5,
 
@@ -555,7 +587,19 @@ namespace GpsTestProject
             };
 
             //  線情報追加
-            _map_elm_lyr_line_center.MapElements.Add(map_line);
+            switch (side_)
+            {
+                case eLRCside.Left:
+                    _map_elm_lyr_line_left.MapElements.Add(map_line);
+                    break;
+                case eLRCside.Right:
+                    _map_elm_lyr_line_right.MapElements.Add(map_line);
+                    break;
+                case eLRCside.Center:
+                default:
+                    _map_elm_lyr_line_center.MapElements.Add(map_line);
+                    break;
+            }
         }
         #endregion マップ要素更新
 
@@ -614,13 +658,13 @@ namespace GpsTestProject
             return phi_rod;
         }
 
-        private BasicGeoposition FuncCalcLocatioPos(BasicGeoposition now_, double angle_head_, eLRside side_)
+        private BasicGeoposition FuncCalcLocatioPos(BasicGeoposition now_, double angle_head_, eLRCside side_)
         {
             double angle_side = 0;
             double distance = 0;
-
+            
             //  左右の角度調整, 距離
-            if(eLRside.Left == side_)
+            if(eLRCside.Left == side_)
             {
                 distance = double.Parse(txBx_左幅指定.Text);
                 angle_side = angle_head_ - 90;
