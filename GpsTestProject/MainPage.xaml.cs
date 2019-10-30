@@ -494,7 +494,7 @@ namespace GpsTestProject
         private void FuncAddMapIconChecked(Geopoint pos_, bool? chked_, eLRCside side_)
         {
             bool update = false;
-            if (chked_.HasValue)
+            if (chked_.HasValue && chked_.Value)
             {
                 update = true;
             }
